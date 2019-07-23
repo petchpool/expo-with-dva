@@ -3,7 +3,6 @@ import { Asset } from 'expo-asset'
 import * as Font from 'expo-font'
 import React, { PureComponent } from 'react'
 import { Platform, StatusBar, View, BackHandler } from 'react-native'
-
 import AppNavigator from './navigation/AppNavigator'
 import { NavigationActions } from 'react-navigation'
 
@@ -13,7 +12,8 @@ import {
   createNavigationReducer
 } from 'react-navigation-redux-helpers'
 import { connect } from 'react-redux'
-import { assets, fonts } from './constants/AsyncFiles'
+import { Assets } from './constants'
+import { objToArray } from './utils/helpers'
 
 export const routerReducer = createNavigationReducer(AppNavigator)
 
@@ -61,9 +61,10 @@ class Router extends PureComponent {
   }
 
   _loadResourcesAsync = async () => {
+    const assets = [...objToArray(Assets.imageAssets)]
     await Promise.all([
       Asset.loadAsync(assets),
-      Font.loadAsync(fonts),
+      Font.loadAsync(Assets.fontAssets),
     ])
   }
 
